@@ -1,0 +1,8 @@
+{
+	"BuildId": "19505902",
+	"Modules": 
+	{
+		"SRDisplayModule": "UnrealEditor-SRDisplayModule.dll",
+		"XRDisplayModule": "UnrealEditor-XRDisplayModule.dll"
+	}
+}
