@@ -53,6 +53,10 @@
 				"HoloLens",
 				"Android"
 			]
+		},
+		{
+			"Name": "DatasmithImporter",
+			"Enabled": true
 		}
 	]
 }
