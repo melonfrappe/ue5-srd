@@ -7,3 +7,5 @@ TDG00003-BDP-XX-XX-M3-A-NakaginCapsules_detached-3DView-_3D_-_michael_wylieP42DY
 533936_dem_6697_op.gml filter=lfs diff=lfs merge=lfs -text
 533946_dem_6697_op.gml filter=lfs diff=lfs merge=lfs -text
 533946_luse_6668_2_op.gml filter=lfs diff=lfs merge=lfs -text
+
+tower_097AF033.uasset filter=lfs diff=lfs merge=lfs -text
