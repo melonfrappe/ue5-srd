@@ -1,9 +1,9 @@
-// Copyright © 2023 Ministry of Land、Infrastructure and Transport
+// Copyright © 2023 Ministry of Land, Infrastructure and Transport
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "Editor/PropertyEditor/Public/IDetailsView.h"
 #include "Styling/ISlateStyle.h"
 
 class UPLATEAUExportSettings;

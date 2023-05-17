@@ -1,4 +1,4 @@
-// Copyright © 2023 Ministry of Land、Infrastructure and Transport
+// Copyright © 2023 Ministry of Land, Infrastructure and Transport
 
 #pragma once
 
@@ -41,7 +41,7 @@ private:
     TUniquePtr<class FPLATEAUExtentGizmo> ExtentGizmo;
     TArray<class FPLATEAUMeshCodeGizmo> MeshCodeGizmos;
     TUniquePtr<class FPLATEAUBasemap> Basemap;
-    TUniquePtr<class FPLATEAUFeatureInfoDisplay> FeatureInfoDisplay;
+    TSharedPtr<class FPLATEAUFeatureInfoDisplay> FeatureInfoDisplay;
     std::shared_ptr<plateau::dataset::IDatasetAccessor> DatasetAccessor;
 
     // 内部状態

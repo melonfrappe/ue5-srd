@@ -1,4 +1,4 @@
-// Copyright © 2023 Ministry of Land、Infrastructure and Transport
+// Copyright © 2023 Ministry of Land, Infrastructure and Transport
 
 #include "PLATEAUMeshExporter.h"
 #include "plateau/mesh_writer/gltf_writer.h"
@@ -11,8 +11,13 @@
 #include "plateau/polygon_mesh/node.h"
 #include "plateau/polygon_mesh/mesh.h"
 #include "plateau/polygon_mesh/sub_mesh.h"
-#include "MeshDescription.h"
-#include "StaticMeshAttributes.h"
+#include "MeshDescription/Public/MeshDescription.h"
+#include "Runtime/StaticMeshDescription/Public/StaticMeshAttributes.h"
+#include "MaterialTypes.h"
+#include "Engine/Classes/Engine/Texture.h"
+#include "Engine/Classes/Components/StaticMeshComponent.h"
+#include "Engine/Classes/Materials/MaterialInstance.h"
+#include "Engine/Classes/Engine/StaticMesh.h"
 #include "UObject/UObjectBaseUtility.h"
 #include "filesystem"
 
@@ -47,7 +52,7 @@ void FPLATEAUMeshExporter::ExportAsOBJ(const FString ExportPath, APLATEAUInstanc
     for (int i = 0; i < ModelDataArray.Num(); i++) {
         if (ModelDataArray[i]->getRootNodeCount() != 0) {
             const FString ExportPathWithName = ExportPath + "/" + ModelNames[i] + ".obj";
-            Writer.write(TCHAR_TO_UTF8(*ExportPathWithName.Replace(TEXT("/"), TEXT("\\"))), *ModelDataArray[i]);
+            Writer.write(TCHAR_TO_UTF8(*ExportPathWithName), *ModelDataArray[i]);
         }
     }
 }
@@ -65,7 +70,7 @@ void FPLATEAUMeshExporter::ExportAsFBX(const FString ExportPath, APLATEAUInstanc
     for (int i = 0; i < ModelDataArray.Num(); i++) {
         if (ModelDataArray[i]->getRootNodeCount() != 0) {
             const FString ExportPathWithName = ExportPath + "/" + ModelNames[i] + ".fbx";
-            Writer.write(TCHAR_TO_UTF8(*ExportPathWithName.Replace(TEXT("/"), TEXT("\\"))), *ModelDataArray[i], Option.FbxWriteOptions);
+            Writer.write(TCHAR_TO_UTF8(*ExportPathWithName), *ModelDataArray[i], Option.FbxWriteOptions);
         }
     }
 }
@@ -80,7 +85,7 @@ void FPLATEAUMeshExporter::ExportAsGLTF(const FString ExportPath, APLATEAUInstan
             const FString ExportPathWithFolder = ExportPath + "/" + ModelNames[i];
 
             std::filesystem::create_directory(TCHAR_TO_UTF8(*ExportPathWithFolder.Replace(TEXT("/"), TEXT("\\"))));
-            Writer.write(TCHAR_TO_UTF8(*ExportPathWithName.Replace(TEXT("/"), TEXT("\\"))), *ModelDataArray[i], Option.GltfWriteOptions);
+            Writer.write(TCHAR_TO_UTF8(*ExportPathWithName), *ModelDataArray[i], Option.GltfWriteOptions);
         }
     }
 }
@@ -89,12 +94,13 @@ TArray<std::shared_ptr<plateau::polygonMesh::Model>> FPLATEAUMeshExporter::Creat
     TArray<std::shared_ptr<plateau::polygonMesh::Model>> ModelArray;
     const auto RootComponent = ModelActor->GetRootComponent();
     const auto Components = RootComponent->GetAttachChildren();
-    for (int i = 0; i < Components.Num(); i++) {
+    for (int i = 0; i < Components.Num(); i++)
+    {
         //BillboardComponentなるコンポーネントがついていることがあるので無視
-        if (!Components[i]->GetName().Contains("BillboardComponent")) {
-            ModelArray.Add(CreateModel(Components[i], Option));
-            ModelNames.Add(RemoveSuffix(Components[i]->GetName()));
-        }
+        if (Components[i]->GetName().Contains("BillboardComponent")) continue;
+        
+        ModelArray.Add(CreateModel(Components[i], Option));
+        ModelNames.Add(RemoveSuffix(Components[i]->GetName()));
     }
     return ModelArray;
 }
@@ -127,7 +133,7 @@ void FPLATEAUMeshExporter::CreateNode(plateau::polygonMesh::Node& OutNode, UScen
 void FPLATEAUMeshExporter::CreateMesh(plateau::polygonMesh::Mesh& OutMesh, USceneComponent* MeshComponent, const MeshExportOptions Option) {
     //StaticMeshComponentにキャスト
     UStaticMeshComponent* StaticMeshComponent = Cast<UStaticMeshComponent>(MeshComponent);
-    FStaticMeshAttributes Attributes(*StaticMeshComponent->GetStaticMesh()->GetMeshDescription(0));
+    // FStaticMeshAttributes Attributes(*StaticMeshComponent->GetStaticMesh()->GetMeshDescription(0));
 
     //渡すためのデータ各種
     std::vector<TVec3d> Vertices;
@@ -157,31 +163,38 @@ void FPLATEAUMeshExporter::CreateMesh(plateau::polygonMesh::Mesh& OutMesh, UScen
     }
 
     for (int32 TriangleIndex = 0; TriangleIndex < RenderMesh.IndexBuffer.GetNumIndices() / 3; ++TriangleIndex) {
-        OutIndices.push_back(RenderMesh.IndexBuffer.GetIndex(TriangleIndex * 3 + 2));
-        OutIndices.push_back(RenderMesh.IndexBuffer.GetIndex(TriangleIndex * 3 + 1));
         OutIndices.push_back(RenderMesh.IndexBuffer.GetIndex(TriangleIndex * 3));
+        OutIndices.push_back(RenderMesh.IndexBuffer.GetIndex(TriangleIndex * 3 + 1));
+        OutIndices.push_back(RenderMesh.IndexBuffer.GetIndex(TriangleIndex * 3 + 2));
     }
 
     for (int k = 0; k < RenderMesh.Sections.Num(); k++) {
         const auto& Section = RenderMesh.Sections[k];
+        if(Section.NumTriangles <= 0) continue;
+        
         //サブメッシュの開始・終了インデックス計算
         const int FirstIndex = Section.FirstIndex;
-        const int EndIndex = Section.FirstIndex + Section.NumTriangles * 3;
+        const int EndIndex = Section.FirstIndex + Section.NumTriangles * 3 - 1;
+        ensureAlwaysMsgf((EndIndex - FirstIndex + 1) % 3 == 0, TEXT("SubMesh indices size should be multiple of 3.") );
 
         //マテリアルがテクスチャを持っているようなら取得、設定によってはスキップ
-        FString PathName;
+        FString PathName = FString("");
         if (Option.bExportTexture) {
             const auto  MaterialInstance = (UMaterialInstance*)StaticMeshComponent->GetMaterial(k);
             if (MaterialInstance->TextureParameterValues.Num() > 0) {
                 FMaterialParameterMetadata MetaData;
                 MaterialInstance->TextureParameterValues[0].GetValue(MetaData);
                 if (const auto Texture = MetaData.Value.Texture; Texture != nullptr) {
-                    PathName = (FPaths::ProjectContentDir() + "PLATEAU/" + Texture->GetName()).Replace(TEXT("/"), TEXT("\\"));
+                    const auto BaseDir = IFileManager::Get().ConvertToAbsolutePathForExternalAppForRead(*(FPaths::ProjectContentDir() + "PLATEAU/"));
+                    PathName = BaseDir + Texture->GetName();
                 }
             }
         }
 
-        OutMesh.addSubMesh(TCHAR_TO_UTF8(*PathName), FirstIndex, EndIndex);
+        if (!PathName.IsEmpty())
+        {
+            OutMesh.addSubMesh(TCHAR_TO_UTF8(*PathName), FirstIndex, EndIndex);
+        }
     }
 
     // TODO: MeshDescription使用する方法だと何故かUV取得できない
@@ -234,6 +247,8 @@ void FPLATEAUMeshExporter::CreateMesh(plateau::polygonMesh::Mesh& OutMesh, UScen
     OutMesh.addUV1(UV1, Vertices.size());
     OutMesh.addUV2WithSameVal(TVec2f(0.0f, 0.0f), Vertices.size());
     OutMesh.addUV3WithSameVal(TVec2f(0.0f, 0.0f), Vertices.size());
+    ensureAlwaysMsgf(OutMesh.getIndices().size() % 3 == 0, TEXT("Indice size should be multiple of 3."));
+    ensureAlwaysMsgf(OutMesh.getVertices().size() == OutMesh.getUV1().size(), TEXT("Size of vertices and uv1 should be same."));
 }
 
 FString FPLATEAUMeshExporter::RemoveSuffix(const FString ComponentName) {

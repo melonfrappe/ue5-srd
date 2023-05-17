@@ -6,6 +6,26 @@
 #include "plateau/geometry/geo_coordinate.h"
 
 /**
+ * Http通信のエラーです。(Httplib::Error)
+ */
+enum class HttpResult {
+    Success = 0,
+    Unknown,
+    Connection,
+    BindIPAddress,
+    Read,
+    Write,
+    ExceedRedirectCount,
+    Canceled,
+    SSLConnection,
+    SSLLoadingCerts,
+    SSLServerVerification,
+    UnsupportedMultipartBoundaryChars,
+    Compression,
+    ConnectionTimeout,
+};
+
+/**
  * 地理院地図のタイル情報です。
  * 具体的なタイル座標情報についてはこちらを参照してください。
  * https://maps.gsi.go.jp/development/tileCoordCheck.html
@@ -22,6 +42,7 @@ struct TileCoordinate {
 struct VectorTile {
     TileCoordinate coordinate{};
     std::string image_path;
+    HttpResult result;
 };
 
 /**
@@ -76,7 +97,7 @@ public:
     static const std::string& getDefaultUrl();
 
 private:
-    static inline std::string default_url_ = "http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png";
+    static const std::string default_url_;
 
     std::string url_;
     std::string destination_;

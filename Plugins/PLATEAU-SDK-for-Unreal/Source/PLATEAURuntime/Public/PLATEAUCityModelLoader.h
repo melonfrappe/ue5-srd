@@ -1,4 +1,4 @@
-// Copyright 2023 Ministry of LandÅAInfrastructure and Transport
+// Copyright 2023 Ministry of Land, Infrastructure and Transport
 
 #pragma once
 
@@ -31,26 +31,35 @@ enum class EBuildingTypeMask : uint8 {
     OuterCeilingSurface
 };
 
+UENUM(BlueprintType)
+enum class ECityModelLoadingPhase : uint8 {
+    Idle = 0,
+    Start = 1,
+    Cancelling = 2,
+    Finished = 3
+};
+
 namespace plateau::udx {
     enum class PredefinedCityModelPackage : uint32_t;
 }
 
 USTRUCT()
 struct FPLATEAUCityModelLoadStatus {
-    GENERATED_BODY()
+    GENERATED_USTRUCT_BODY()
 
 public:
     UPROPERTY(EditAnywhere, Category = "PLATEAU")
-        int TotalGmlCount;
+        int TotalGmlCount = 0;
 
     UPROPERTY(EditAnywhere, Category = "PLATEAU")
-        int LoadedGmlCount;
+        int LoadedGmlCount = 0;
 
     UPROPERTY(EditAnywhere, Category = "PLATEAU")
         TArray<FString> LoadingGmls;
 
     UPROPERTY(EditAnywhere, Category = "PLATEAU")
         TArray<FString> FailedGmls;
+
 };
 
 UCLASS()
@@ -79,14 +88,26 @@ public:
     UPROPERTY(EditAnywhere, Category = "PLATEAU")
         bool bImportFromServer;
 
+    UPROPERTY(EditAnywhere, Category = "PLATEAU")
+        ECityModelLoadingPhase Phase;
+
     std::shared_ptr<plateau::network::Client> ClientPtr;
 
     UFUNCTION(BlueprintCallable, Category = "PLATEAU")
         void LoadAsync();
 
+    UFUNCTION(BlueprintCallable, Category = "PLATEAU")
+        void Cancel();
+
+
+
 protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
+
+    TAtomic<bool> bCanceled;
+
+    FCriticalSection LoadMeshSection;
 
 public:
     // Called every frame

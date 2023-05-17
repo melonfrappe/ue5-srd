@@ -1,16 +1,14 @@
-// Copyright © 2023 Ministry of Land、Infrastructure and Transport
+// Copyright © 2023 Ministry of Land, Infrastructure and Transport
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "Widgets/Layout/SBox.h"
+#include "Widgets/SBoxPanel.h"
+#include "PLATEAUInstancedCityModel.h"
 #include <plateau/dataset/city_model_package.h>
 #include <citygml/cityobject.h>
-
-struct PLATEAUPackageLOD {
-    int MaxLOD = 0;
-    int MinLOD = 0;
-};
 
 class SPLATEAUFilteringPanel : public SCompoundWidget {
 public:
@@ -21,7 +19,7 @@ public:
 private:
     TWeakPtr<SWindow> OwnerWindow;
     TSharedPtr<class FPLATEAUEditorStyle> Style;
-    TArray<PLATEAUPackageLOD> TargetLODs;
+    TArray<FPLATEAUMinMaxLod> TargetLODs;
 
     bool bShowMultiLOD = true;
 
@@ -68,7 +66,7 @@ private:
     TSharedPtr<SVerticalBox> ConstructSelectingActorPanel();
 
     TSharedPtr<SVerticalBox> ConstructGenericLODWidget(plateau::dataset::PredefinedCityModelPackage TargetPackage);
-    FText GetLODText(PredefinedCityModelPackage TargetPackage);
+    FText GetLODText(plateau::dataset::PredefinedCityModelPackage TargetPackage);
     TSharedPtr<SVerticalBox> ConstructBuildingLODWidget();
     
     TOptional<int32> GetTargetMaxLOD() const { return TargetMaxLOD; };

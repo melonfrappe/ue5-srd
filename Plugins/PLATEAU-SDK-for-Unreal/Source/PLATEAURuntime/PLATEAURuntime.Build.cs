@@ -45,7 +45,8 @@ public class PLATEAURuntime : ModuleRules
                 "RHI",
                 "ImageWrapper",
                 "RenderCore",
-                "OpenGL"
+                "OpenGL",
+                "Projects",
                 // ... add private dependencies that you statically link with here ...	
             }
         );
@@ -61,10 +62,12 @@ public class PLATEAURuntime : ModuleRules
         IncludeLibPlateau();
     }
 
-    // ���� : PLATEAUEditor.Build.cs �ɂ��������̂������Ă�������
+    // 注意 : PLATEAUEditor.Build.cs にも同じものを書いてください
     public void IncludeLibPlateau()
     {
 
+        bEnableExceptions = true;
+        
         PublicSystemIncludePaths.Add(Path.Combine(ModuleDirectory, "Public"));
         PublicSystemIncludePaths.Add(Path.Combine(ModuleDirectory, "../ThirdParty/include"));
 
@@ -81,7 +84,7 @@ public class PLATEAURuntime : ModuleRules
         else if (Target.Platform == UnrealTargetPlatform.Mac)
         {
             libPlateauPath = libPlateauPath + "/macos/libplateau_combined.a";
-            PublicAdditionalLibraries.Add("/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.1.sdk/usr/lib/libiconv.tbd");
+            PublicAdditionalLibraries.Add("/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libiconv.tbd");
             PublicAdditionalLibraries.Add("/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL.tbd");
         }
         else if (Target.Platform == UnrealTargetPlatform.Linux)
