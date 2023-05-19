@@ -56,7 +56,7 @@
 #define UE_BUILD_DEVELOPMENT 1
 #define UE_IS_ENGINE_MODULE 0
 #define UE_PROJECT_NAME ue5_srd_project
-#define UE_TARGET_NAME UnrealEditor
+#define UE_TARGET_NAME ue5_srd_projectEditor
 #define UNREAL_ENGINE_PLUGIN 1
 #define UE_MODULE_NAME "XRDisplayModule"
 #define UE_PLUGIN_NAME "SRDisplayPlugin"

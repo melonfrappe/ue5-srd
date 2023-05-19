@@ -6,10 +6,10 @@
 /NAME:"UnrealEditor-XRDisplayModule.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"C:\ue5-srd\Intermediate\Build\Win64\UnrealEditor\Development\UnrealEd\SharedPCH.UnrealEd.ShadowErrors.h.obj"
-"C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\Module.XRDisplayModule.cpp.obj"
-"C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\Module.XRDisplayModule.gen.cpp.obj"
-"C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\load_library_utility.cc.obj"
-"C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\xr_api_wrapper.cc.obj"
-"C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\Default.rc2.res"
-/OUT:"C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\UnrealEditor-XRDisplayModule.lib"
+"C:\Users\h1206\Documents\GitHub\ue5-srd\Intermediate\Build\Win64\UnrealEditor\Development\UnrealEd\SharedPCH.UnrealEd.ShadowErrors.h.obj"
+"C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\Module.XRDisplayModule.cpp.obj"
+"C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\Module.XRDisplayModule.gen.cpp.obj"
+"C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\load_library_utility.cc.obj"
+"C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\xr_api_wrapper.cc.obj"
+"C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\Default.rc2.res"
+/OUT:"C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Development\XRDisplayModule\UnrealEditor-XRDisplayModule.lib"
