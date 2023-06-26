@@ -3,6 +3,7 @@
 
 #include "EarthQuakeNiagaraActorBase.h"
 #include "EarthQuakeUtils.h"
+#include "NiagaraComponent.h"
 #if WITH_EDITORONLY_DATA
 #include "Misc/FileHelper.h"
 #include "DesktopPlatformModule.h"
@@ -143,6 +144,35 @@ void AEarthQuakeNiagaraActorBase::CreatePointCloudTexture(const TArray<FEQPixelD
   */
 }
 
+
+static void calcDateTime(int64 Time, FString &DateTimeStr)
+{
+  FDateTime DateTime(Time);
+  DateTimeStr = DateTime.ToString(TEXT("%Y/%m/%d %H:%M:%S"));
+}
+
+void AEarthQuakeNiagaraActorBase::GetMinTime(FString& DateTimeStr)
+{
+  calcDateTime(MinTime, DateTimeStr);
+}
+
+void AEarthQuakeNiagaraActorBase::GetMaxTime(FString& DateTimeStr)
+{
+  calcDateTime(MaxTime, DateTimeStr);
+}
+
+void AEarthQuakeNiagaraActorBase::GetPlayNowTime(FString& DateTimeStr)
+{
+  FNiagaraSystemInstanceControllerConstPtr NiagaraSystemInstanceControllerConstPtr = GetNiagaraComponent()->GetSystemInstanceController();
+  if (NiagaraSystemInstanceControllerConstPtr.IsValid())
+  {
+    double age = NiagaraSystemInstanceControllerConstPtr->GetAge();
+    int64 curTime = age / PlayTime * (MaxTime - MinTime) + MinTime;
+    if (curTime > MaxTime) curTime = MaxTime;
+    calcDateTime(curTime, DateTimeStr);
+  }
+}
+
 //##### CreatePointCloud
 void AEarthQuakeNiagaraActorBase::CreatePointCloud()
 {
@@ -194,6 +224,7 @@ void AEarthQuakeNiagaraActorBase::CreatePointCloud()
     MaxTime = RelationEarthQuakeNiagaraActor->MaxTime;
     MinTime = RelationEarthQuakeNiagaraActor->MinTime;
     PlayTime = RelationEarthQuakeNiagaraActor->PlayTime;
+    IdleTime = RelationEarthQuakeNiagaraActor->IdleTime;
   }
 
   //============================================================================
@@ -479,24 +510,25 @@ void AEarthQuakeNiagaraActorBase::ReadPointCloud()
         PointData.mag = DebugMag;
       else */
       PointData.mag = FCString::Atof(Row[3]);
-      uint16 date0 = FCString::Atoi(Row[4]),date = date0;
-      uint16 time0 = FCString::Atoi(Row[5]),time = time0;
+      int32 date0 = FCString::Atoi(Row[4]),date = date0, date00 = date0;
+      int32 time0 = FCString::Atoi(Row[5]),time = time0, time00 = time0;
       date /= 100;
-      int64 day = date0 - (date * 100);
+      int32 day = date0 - (date * 100);
       date0 = date;
       date /= 100;
-      int64 mon = date0 - (date * 100);
+      int32 mon = date0 - (date * 100);
       uint16 yer = date;
       time /= 100;
-      int64 dsec = time0 - (time * 100);
+      int32 dsec = time0 - (time * 100);
       time0 = time;
       time /= 100;
-      int64 sec = time0 - (time * 100);
+      int32 sec = time0 - (time * 100);
       time0 = time;
       time /= 100;
-      int64 min = time0 - (time * 100);
-      int64 hor = time;
-      PointData.time = (((((yer * 12 + mon) * 31 + day) * 24 + hor) * 60 + min) * 60 + sec) * 100 + dsec;
+      int32 min = time0 - (time * 100);
+      int32 hor = time;
+      FDateTime DateTime(yer, mon, day, hor, min, sec, dsec*10);
+      PointData.time = DateTime.GetTicks();
 
       PointCloud.Add(PointData);
     }

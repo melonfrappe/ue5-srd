@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "NiagaraActor.h"
 #include "Engine/DataTable.h"
+#include "Misc/DateTime.h"
 #include "EarthQuakeNiagaraActorBase.generated.h"
 
 #define FPS30 30
@@ -60,6 +61,12 @@ public:
   virtual bool ShouldTickIfViewportsOnly() const override;
   UFUNCTION(BlueprintImplementableEvent,meta = (DisplayName = "ConstructOverlap"),Category = "EarthQuakeParam")
     void ReceiveCreatePointCloud();
+  UFUNCTION(BlueprintCallable,Category = "EarthQuakeParam")
+    void GetMinTime(FString& DateTimeStr);
+  UFUNCTION(BlueprintCallable,Category = "EarthQuakeParam")
+    void GetMaxTime(FString& DateTimeStr);
+  UFUNCTION(BlueprintCallable,Category = "EarthQuakeParam")
+    void GetPlayNowTime(FString& DateTimeStr);
   void CreatePointCloudTexture(const TArray<FEQPixelData>& Bitmap,int32 Width,int32 Height);
   UFUNCTION(BlueprintCallable,CallInEditor,Category = "EarthQuakeParam")
     virtual void CreatePointCloud();
