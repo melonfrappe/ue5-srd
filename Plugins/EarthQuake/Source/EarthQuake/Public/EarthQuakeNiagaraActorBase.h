@@ -48,7 +48,7 @@ class EARTHQUAKE_API AEarthQuakeNiagaraActorBase : public ANiagaraActor
 {
 	GENERATED_BODY()
 
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
 private:
   bool OpenFileDialog(const FString& DialogTitle,const FString& DefaultFile,FString& outFileName);
 public:
@@ -70,7 +70,7 @@ public:
   void CreatePointCloudTexture(const TArray<FEQPixelData>& Bitmap,int32 Width,int32 Height);
   UFUNCTION(BlueprintCallable,CallInEditor,Category = "EarthQuakeParam")
     virtual void CreatePointCloud();
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
   UFUNCTION(BlueprintCallable,Category = "EarthQuakeParam")
     virtual void ReadPointCloud();
   UFUNCTION(BlueprintCallable,CallInEditor,Category = "EarthQuakeParam")

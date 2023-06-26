@@ -4,13 +4,13 @@
 #include "EarthQuakeNiagaraActorBase.h"
 #include "EarthQuakeUtils.h"
 #include "NiagaraComponent.h"
-#if WITH_EDITORONLY_DATA
+#include "RenderUtils.h"
+#include "Engine/Texture2DDynamic.h"
+#if WITH_EDITOR
 #include "Misc/FileHelper.h"
 #include "DesktopPlatformModule.h"
 #include "EditorDirectories.h"
 #include "Serialization/Csv/CsvParser.h"
-#include "RenderUtils.h"
-#include "Engine/Texture2DDynamic.h"
 #include "Kismet/KismetRenderingLibrary.h"
 #include "UObject/Package.h"
 #include "UObject/SavePackage.h"
@@ -113,12 +113,14 @@ void AEarthQuakeNiagaraActorBase::CreatePointCloudTexture(const TArray<FEQPixelD
     UE_LOG(LogTemp,Error,TEXT("Failed to create dynamic texture."));
     return;
   }
+#if WITH_EDITOR
   PointCloudTexture->MipGenSettings = TextureMipGenSettings::TMGS_NoMipmaps;
-  PointCloudTexture->CompressionSettings = TC_HDR; // TC_Displacementmap;
-  PointCloudTexture->NeverStream = true;
   PointCloudTexture->DeferCompression = false;
   PointCloudTexture->CompressionNoAlpha = false;
   PointCloudTexture->CompressionNone = true;
+#endif
+  PointCloudTexture->CompressionSettings = TC_HDR; // TC_Displacementmap;
+  PointCloudTexture->NeverStream = true;
   PointCloudTexture->SRGB = false;
   PointCloudTexture->UpdateResource();
 
@@ -143,7 +145,6 @@ void AEarthQuakeNiagaraActorBase::CreatePointCloudTexture(const TArray<FEQPixelD
     PointCloudStaticTexture->UpdateResource();
   */
 }
-
 
 static void calcDateTime(int64 Time, FString &DateTimeStr)
 {
@@ -429,7 +430,7 @@ void AEarthQuakeNiagaraActorBase::CreatePointCloud()
 */
 
 //##### PostEditChangeProperty
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
 void AEarthQuakeNiagaraActorBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
   FProperty* PropertyThatChanged = PropertyChangedEvent.Property;
