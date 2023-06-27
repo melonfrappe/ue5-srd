@@ -106,7 +106,7 @@ void AEarthQuakeNiagaraActorBase::CreatePointCloudTexture(const TArray<FEQPixelD
   }
 
   // FTexture2DDynamicCreateInfo(EPixelFormat InFormat = PF_B8G8R8A8,bool InIsResolveTarget = false,bool InSRGB = true,TextureFilter InFilter = TF_Default,ESamplerAddressMode InSamplerAddressMode = AM_Wrap)
-  FTexture2DDynamicCreateInfo CreateInfo(PIXEL_FORMAT, false, false, TF_Nearest, AM_Clamp);
+  FTexture2DDynamicCreateInfo CreateInfo(PIXEL_FORMAT,false,false,TF_Nearest,AM_Clamp);
   PointCloudTexture = UTexture2DDynamic::Create(Width,Height,CreateInfo);
   if (!PointCloudTexture)
   {
