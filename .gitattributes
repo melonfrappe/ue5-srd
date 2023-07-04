@@ -11,3 +11,4 @@ TDG00003-BDP-XX-XX-M3-A-NakaginCapsules_detached-3DView-_3D_-_michael_wylieP42DY
 tower_097AF033.uasset filter=lfs diff=lfs merge=lfs -text
 0_SHAPE_SFM_3M_v20180804.uasset filter=lfs diff=lfs merge=lfs -text
 model_odate.uasset filter=lfs diff=lfs merge=lfs -text
+gassann_v1.uasset filter=lfs diff=lfs merge=lfs -text
