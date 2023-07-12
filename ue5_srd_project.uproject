@@ -51,6 +51,14 @@
 		{
 			"Name": "DatasmithGLTFImporter",
 			"Enabled": true
+		},
+		{
+			"Name": "TwinmotionToUnreal",
+			"Enabled": true,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Mac"
+			]
 		}
 	],
 	"TargetPlatforms": [
