@@ -1,8 +1,8 @@
-E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisplayModule\External\xr-runtime\src\load_library_utility.cc
+C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisplayModule\External\xr-runtime\src\load_library_utility.cc
 /I .
 /I Runtime\D3D12RHI\Private
 /I Runtime\D3D12RHI\Private\Windows
-/I E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisplayModule\Private
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisplayModule\Private
 /I ..\Intermediate\Build\Win64\UnrealGame\Inc\CoreUObject
 /I Runtime
 /I Runtime\CoreUObject\Public
@@ -112,10 +112,10 @@ E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisp
 /I Runtime\RHICore\Public
 /I ThirdParty\Windows
 /I Runtime\D3D12RHI\Public
-/I E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealGame\Inc\XRDisplayModule
-/I E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source
-/I E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisplayModule\External\xr-runtime\include
-/I E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisplayModule\Public
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealGame\Inc\XRDisplayModule
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisplayModule\External\xr-runtime\include
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisplayModule\Public
 /I ..\Intermediate\Build\Win64\UnrealGame\Inc\UMG
 /I Runtime\UMG\Public
 /I Runtime\Online
@@ -140,12 +140,12 @@ E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Source\XRDisp
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt"
-/FI"E:\H1206\ue5_srd_project\Intermediate\Build\Win64\ue5_srd_project\Development\Engine\SharedPCH.Engine.Exceptions.ShadowErrors.h"
-/FI"E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealGame\Development\XRDisplayModule\Definitions.XRDisplayModule.h"
-/Yu"E:\H1206\ue5_srd_project\Intermediate\Build\Win64\ue5_srd_project\Development\Engine\SharedPCH.Engine.Exceptions.ShadowErrors.h"
-/Fp"E:\H1206\ue5_srd_project\Intermediate\Build\Win64\ue5_srd_project\Development\Engine\SharedPCH.Engine.Exceptions.ShadowErrors.h.pch"
-/Fo"E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealGame\Development\XRDisplayModule\load_library_utility.cc.obj"
-/sourceDependencies E:\H1206\ue5_srd_project\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealGame\Development\XRDisplayModule\load_library_utility.cc.json
+/FI"C:\ue5-srd\Intermediate\Build\Win64\ue5_srd_project\Development\Engine\SharedPCH.Engine.Exceptions.ShadowErrors.h"
+/FI"C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealGame\Development\XRDisplayModule\Definitions.XRDisplayModule.h"
+/Yu"C:\ue5-srd\Intermediate\Build\Win64\ue5_srd_project\Development\Engine\SharedPCH.Engine.Exceptions.ShadowErrors.h"
+/Fp"C:\ue5-srd\Intermediate\Build\Win64\ue5_srd_project\Development\Engine\SharedPCH.Engine.Exceptions.ShadowErrors.h.pch"
+/Fo"C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealGame\Development\XRDisplayModule\load_library_utility.cc.obj"
+/sourceDependencies C:\ue5-srd\Plugins\srd-ue-plugin-5.0\SRDisplayPlugin\Intermediate\Build\Win64\UnrealGame\Development\XRDisplayModule\load_library_utility.cc.json
 /Zc:inline
 /nologo
 /Oi
