@@ -2,9 +2,6 @@
 	"RemapUnityFiles": 
 	{
 		"Module.XRDisplayModule.cpp.obj": [
-			"registry_utility.cpp.obj",
-			"string_utility.cpp.obj",
-			"xr_api_wrapper_utility.cpp.obj",
 			"RenderTargetManager.cpp.obj",
 			"XRDisplaySceneViewport.cpp.obj",
 			"XRDisplayViewportClient.cpp.obj",
@@ -12,6 +9,9 @@
 			"XRDisplayModule.cpp.obj",
 			"XRDisplayModuleBPLibrary.cpp.obj",
 			"XRDisplaySystem.cpp.obj",
+			"registry_utility.cpp.obj",
+			"string_utility.cpp.obj",
+			"xr_api_wrapper_utility.cpp.obj",
 			"XrRuntimeWrapper.cpp.obj"
 		],
 		"Module.XRDisplayModule.gen.cpp.obj": [

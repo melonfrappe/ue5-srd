@@ -75,11 +75,60 @@ private:
 
 IMPLEMENT_SHADER_TYPE(, FSRDisplayHomographyTransformPS, TEXT("/Plugin/SRDisplayPlugin/Private/HomographyTransform.usf"), TEXT("MainPS"), SF_Pixel)
 
+class FSRDisplayLowPassFilterPS : public FGlobalShader
+{
+	DECLARE_SHADER_TYPE(FSRDisplayLowPassFilterPS, Global);
+
+public:
+	static bool ShouldCompilePermutation(const FGlobalShaderPermutationParameters& Parameters)
+	{
+		return IsFeatureLevelSupported(Parameters.Platform, ERHIFeatureLevel::SM5);
+	}
+
+	FSRDisplayLowPassFilterPS() {}
+
+	FSRDisplayLowPassFilterPS(const ShaderMetaType::CompiledShaderInitializerType& Initializer)
+		: FGlobalShader(Initializer)
+	{
+		// Bind shader inputs.
+		InTexture.Bind(Initializer.ParameterMap, TEXT("InTexture"));
+		InTextureSampler.Bind(Initializer.ParameterMap, TEXT("InTextureSampler"));
+		Is9tap.Bind(Initializer.ParameterMap, TEXT("Is9tap"));
+	}
+
+	template<typename TShaderRHIParamRef>
+	void SetParameters(FRHICommandList& RHICmdList, const TShaderRHIParamRef ShaderRHI, FRHITexture* Texture, bool is9tap)
+	{
+		FRHISamplerState* SamplerStateRHI = TStaticSamplerState<SF_Point>::GetRHI();
+
+		SetTextureParameter(RHICmdList, ShaderRHI, InTexture, InTextureSampler, SamplerStateRHI, Texture);
+		if (is9tap)
+		{
+			SetShaderValue(RHICmdList, ShaderRHI, Is9tap, 1);
+		}
+		else
+		{
+			SetShaderValue(RHICmdList, ShaderRHI, Is9tap, 0);
+		}
+	}
+
+private:
+	// Shader parameters.
+	LAYOUT_FIELD(FShaderResourceParameter, InTexture);
+	LAYOUT_FIELD(FShaderResourceParameter, InTextureSampler);
+	LAYOUT_FIELD(FShaderParameter, Is9tap);
+};
+
+IMPLEMENT_SHADER_TYPE(, FSRDisplayLowPassFilterPS, TEXT("/Plugin/SRDisplayPlugin/Private/LowPassFilter.usf"), TEXT("MainPS"), SF_Pixel)
+
+
 namespace srdisplay_module
 {
 	const float FSRDisplaySystem::DEFAULT_SRD_VIEW_SPACE_SCALE = 1.f;
 	const float FSRDisplaySystem::DEFAULT_SRD_FAR_CLIP = 100000000.f;
 	const float FSRDisplaySystem::METER_TO_CENTIMETER = 100.f;
+
+	FTexture2DRHIRef TmpRenderTexture = nullptr;
 
 	namespace {
 		FVector2D ConvertWorldPositionToScreen(const FVector4& WorldPosition, const FMatrix& ViewProjectionMatrix)
@@ -191,6 +240,11 @@ namespace srdisplay_module
 	void FSRDisplaySystem::OnEndPlay(FWorldContext& InWorldContext)
 	{
 		SRDisplayManager = nullptr;
+
+		if (TmpRenderTexture != nullptr)
+		{
+			TmpRenderTexture.SafeRelease();
+		}
 	}
 
 	bool FSRDisplaySystem::OnStartGameFrame(FWorldContext& WorldContext)
@@ -227,6 +281,24 @@ namespace srdisplay_module
 
 	void FSRDisplaySystem::RenderTexture_RenderThread(FRHICommandListImmediate& RHICmdList, FRHITexture2D* BackBuffer, FRHITexture2D* SrcTexture, FVector2D WindowSize) const
 	{
+		if (TmpRenderTexture == nullptr)
+		{
+#if ENGINE_MAJOR_VERSION == 5
+			FRHIResourceCreateInfo TmpInfo(TEXT("DisplayProjectorTempTexture"));
+#else // ENGINE_MAJOR_VERSION == 5
+			FRHIResourceCreateInfo TmpInfo;
+#endif // ENGINE_MAJOR_VERSION == 5
+			TmpRenderTexture = RHICreateTexture2D(
+				BackBuffer->GetSizeX(), BackBuffer->GetSizeY(), BackBuffer->GetFormat(), 1, 1,
+				TexCreate_None | TexCreate_ShaderResource | TexCreate_RenderTargetable, TmpInfo);
+		}
+
+		HomographyTransform(RHICmdList, TmpRenderTexture, SrcTexture, WindowSize);
+		LowPassFilter(RHICmdList, BackBuffer, TmpRenderTexture, WindowSize);
+	}
+
+	void FSRDisplaySystem::HomographyTransform(FRHICommandListImmediate& RHICmdList, FRHITexture2D* BackBuffer, FRHITexture2D* SrcTexture, FVector2D WindowSize) const
+	{
 		FRHIRenderPassInfo RPInfoTempRight(BackBuffer, ERenderTargetActions::Load_Store);
 		RHICmdList.BeginRenderPass(RPInfoTempRight, TEXT("FSRDisplaySystem_ProcessHomographyTransform"));
 		{
@@ -262,9 +334,66 @@ namespace srdisplay_module
 			FTexture2DRHIRef TempTextureBuffer = RHICreateTexture2D(ViewportSize.X, ViewportSize.Y, PixelFormat, 1, 1, TexCreate_None | TexCreate_ShaderResource | TexCreate_RenderTargetable, Info);
 
 			RHICmdList.CopyToResolveTarget(SrcTexture, TempTextureBuffer,
-				FResolveParams(FResolveRect(0, 0, ViewportSize.X, ViewportSize.Y), CubeFace_PosX, 0, 0, 0, FResolveRect(0, 0, ViewportSize.X, ViewportSize.Y)));
+																		 FResolveParams(FResolveRect(0, 0, ViewportSize.X, ViewportSize.Y), CubeFace_PosX, 0, 0, 0, FResolveRect(0, 0, ViewportSize.X, ViewportSize.Y)));
 
 			PixelShader->SetParameters(RHICmdList, PixelShader.GetPixelShader(), TempTextureBuffer, LeftHomographyMatrix, RightHomographyMatrix);
+
+			RendererModule->DrawRectangle(
+				RHICmdList,
+				0.f, 0.f,
+				ViewportSize.X, ViewportSize.Y,
+				0.f, 0.f,
+				1.f, 1.f,
+				FIntPoint(ViewportSize.X, ViewportSize.Y),
+				FIntPoint(1, 1),
+				VertexShader,
+				EDRF_Default);
+		}
+		RHICmdList.EndRenderPass();
+	}
+
+	void FSRDisplaySystem::LowPassFilter(FRHICommandListImmediate& RHICmdList, FRHITexture2D* BackBuffer, FRHITexture2D* SrcTexture, FVector2D WindowSize) const
+	{
+		FRHIRenderPassInfo RPInfoTempRight(BackBuffer, ERenderTargetActions::Load_Store);
+		RHICmdList.BeginRenderPass(RPInfoTempRight, TEXT("FSRDisplaySystem_ProcessLowPassFilter"));
+		{
+			const FVector2D ViewportSize = FVector2D(WindowSize.X, WindowSize.Y);
+
+			DrawClearQuad(RHICmdList, FLinearColor(0.0f, 0.0f, 0.0f, 1.0f));
+			RHICmdList.SetViewport(0, 0, 0.0f, ViewportSize.X, ViewportSize.Y, 1.0f);
+
+			FGraphicsPipelineStateInitializer GraphicsPSOInit;
+			RHICmdList.ApplyCachedRenderTargets(GraphicsPSOInit);
+
+			const auto FeatureLevel = GMaxRHIFeatureLevel;
+			FGlobalShaderMap* ShaderMap = GetGlobalShaderMap(FeatureLevel);
+			TShaderMapRef<FScreenVS> VertexShader(ShaderMap);
+			TShaderMapRef<FSRDisplayLowPassFilterPS> PixelShader(ShaderMap);
+
+			GraphicsPSOInit.BlendState = TStaticBlendState<>::GetRHI();
+			GraphicsPSOInit.RasterizerState = TStaticRasterizerState<>::GetRHI();
+			GraphicsPSOInit.DepthStencilState = TStaticDepthStencilState<false, CF_Always>::GetRHI();
+			GraphicsPSOInit.PrimitiveType = PT_TriangleList;
+			GraphicsPSOInit.BoundShaderState.VertexDeclarationRHI = GFilterVertexDeclaration.VertexDeclarationRHI;
+			GraphicsPSOInit.BoundShaderState.VertexShaderRHI = VertexShader.GetVertexShader();
+			GraphicsPSOInit.BoundShaderState.PixelShaderRHI = PixelShader.GetPixelShader();
+			SetGraphicsPipelineState(RHICmdList, GraphicsPSOInit);
+
+			FRHIResourceCreateInfo Info(TEXT("FSRDisplaySystem_ProcessLowPassFilter"));
+			EPixelFormat PixelFormat = BackBuffer->GetFormat();
+			FTexture2DRHIRef TempTextureBuffer = RHICreateTexture2D(ViewportSize.X, ViewportSize.Y, PixelFormat, 1, 1, TexCreate_None | TexCreate_ShaderResource | TexCreate_RenderTargetable, Info);
+			RHICmdList.CopyToResolveTarget(SrcTexture, TempTextureBuffer,
+																		 FResolveParams(FResolveRect(0, 0, ViewportSize.X, ViewportSize.Y), CubeFace_PosX, 0, 0, 0, FResolveRect(0, 0, ViewportSize.X, ViewportSize.Y)));
+
+			constexpr int SideBySide4KWidth = 7680;
+			if(ViewportSize.X == SideBySide4KWidth)
+			{
+				PixelShader->SetParameters(RHICmdList, PixelShader.GetPixelShader(), TempTextureBuffer, true);
+			}
+			else
+			{
+				PixelShader->SetParameters(RHICmdList, PixelShader.GetPixelShader(), TempTextureBuffer, false);
+			}
 
 			RendererModule->DrawRectangle(
 				RHICmdList,

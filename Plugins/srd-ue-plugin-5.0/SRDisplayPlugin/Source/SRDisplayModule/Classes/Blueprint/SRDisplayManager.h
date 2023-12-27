@@ -76,7 +76,6 @@ public:
 		meta = (ToolTip = "If checked, display in 2D on SR Display."))
 	bool IsSRRenderingActive = true;
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SRDisplay|Rendering",
 		meta = (DisplayName = "Far Clip (cm)", ClampMin = "0.0", UIMin = "0.0", ToolTip = "Far clipt distance (cm)."))
 	float FarClip = 100000000.f;
