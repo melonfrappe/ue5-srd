@@ -1,0 +1,14 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-XRDisplayModule-Win64-DebugGame.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:\ue5-srd\Intermediate\Build\Win64\x64\ue5_srd_projectEditor\DebugGame\UnrealEd\SharedPCH.UnrealEd.NonOptimized.ShadowErrors.InclOrderUnreal5_0.h.obj"
+"C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\DebugGame\XRDisplayModule\Module.XRDisplayModule.cpp.obj"
+"C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\DebugGame\XRDisplayModule\load_library_utility.cc.obj"
+"C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\DebugGame\XRDisplayModule\xr_api_wrapper.cc.obj"
+"C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\DebugGame\XRDisplayModule\Default.rc2.res"
+/OUT:"C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\DebugGame\XRDisplayModule\UnrealEditor-XRDisplayModule-Win64-DebugGame.lib"

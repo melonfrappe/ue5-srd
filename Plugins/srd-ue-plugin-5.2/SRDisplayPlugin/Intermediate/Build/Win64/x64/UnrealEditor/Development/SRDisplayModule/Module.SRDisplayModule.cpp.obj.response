@@ -1,8 +1,8 @@
-C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\Development\SRDisplayModule\Module.SRDisplayModule.cpp
+C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\Development\SRDisplayModule\Module.SRDisplayModule.cpp
 /I .
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\XRDisplayModule
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\XRDisplayModule
 /I Runtime\Renderer\Private
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\SRDisplayModule\Private
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\SRDisplayModule\Private
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\CoreUObject\UHT
 /I Runtime\CoreUObject\Public
 /I Runtime
@@ -279,29 +279,29 @@ C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugi
 /I Runtime\MovieSceneCapture\Public
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\AnimationDataController\UHT
 /I Developer\AnimationDataController\Public
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Inc\XRDisplayModule\UHT
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\XRDisplayModule\External\xr-runtime\include
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\XRDisplayModule\Public
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Inc\SRDisplayModule\UHT
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\SRDisplayModule\External\xr-runtime\include
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\SRDisplayModule\Classes
-/I C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\SRDisplayModule\Public
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Inc\XRDisplayModule\UHT
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\XRDisplayModule\External\xr-runtime\include
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\XRDisplayModule\Public
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\UnrealEditor\Inc\SRDisplayModule\UHT
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\SRDisplayModule\External\xr-runtime\include
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\SRDisplayModule\Classes
+/I C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Source\SRDisplayModule\Public
 /external:W0
 /external:I ThirdParty\mimalloc\include
 /external:I ThirdParty\LibTiff\Source\Win64
 /external:I ThirdParty\LibTiff\Source
-/external:I "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.37.32822\INCLUDE"
+/external:I "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.34.31933\INCLUDE"
 /external:I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"
 /external:I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\shared"
 /external:I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\um"
 /external:I "C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\winrt"
-/FI"C:\Users\h1206\Documents\GitHub\ue5-srd\Intermediate\Build\Win64\x64\ue5_srd_projectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.InclOrderUnreal5_0.h"
-/FI"C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\Development\SRDisplayModule\Definitions.SRDisplayModule.h"
-/Yu"C:\Users\h1206\Documents\GitHub\ue5-srd\Intermediate\Build\Win64\x64\ue5_srd_projectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.InclOrderUnreal5_0.h"
-/Fp"C:\Users\h1206\Documents\GitHub\ue5-srd\Intermediate\Build\Win64\x64\ue5_srd_projectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.InclOrderUnreal5_0.h.pch"
-/Fo"C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\Development\SRDisplayModule\Module.SRDisplayModule.cpp.obj"
-/sourceDependencies C:\Users\h1206\Documents\GitHub\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\Development\SRDisplayModule\Module.SRDisplayModule.cpp.dep.json
+/FI"C:\ue5-srd\Intermediate\Build\Win64\x64\ue5_srd_projectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.InclOrderUnreal5_0.h"
+/FI"C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\Development\SRDisplayModule\Definitions.SRDisplayModule.h"
+/Yu"C:\ue5-srd\Intermediate\Build\Win64\x64\ue5_srd_projectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.InclOrderUnreal5_0.h"
+/Fp"C:\ue5-srd\Intermediate\Build\Win64\x64\ue5_srd_projectEditor\Development\Engine\SharedPCH.Engine.ShadowErrors.InclOrderUnreal5_0.h.pch"
+/Fo"C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\Development\SRDisplayModule\Module.SRDisplayModule.cpp.obj"
+/sourceDependencies C:\ue5-srd\Plugins\srd-ue-plugin-5.2\SRDisplayPlugin\Intermediate\Build\Win64\x64\UnrealEditor\Development\SRDisplayModule\Module.SRDisplayModule.cpp.dep.json
 /Zc:inline
 /nologo
 /Oi
