@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.0",
+	"EngineAssociation": "5.1",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -38,15 +38,6 @@
 		{
 			"Name": "DatasmithImporter",
 			"Enabled": true
-		},
-		{
-			"Name": "LidarPointCloud",
-			"Enabled": true,
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"Mac",
-				"Linux"
-			]
 		},
 		{
 			"Name": "DatasmithGLTFImporter",
