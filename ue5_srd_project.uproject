@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.2",
+	"EngineAssociation": "5.3",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -26,22 +26,12 @@
 			"Enabled": true
 		},
 		{
-			"Name": "OpenXR",
-			"Enabled": true,
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"Linux",
-				"Android",
-				"HoloLens"
-			]
-		},
-		{
 			"Name": "DatasmithImporter",
-			"Enabled": true
+			"Enabled": false
 		},
 		{
 			"Name": "DatasmithGLTFImporter",
-			"Enabled": true
+			"Enabled": false
 		}
 	],
 	"TargetPlatforms": [

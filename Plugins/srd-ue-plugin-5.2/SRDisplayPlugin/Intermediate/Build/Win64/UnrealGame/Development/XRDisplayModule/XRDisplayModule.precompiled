@@ -1,7 +1,0 @@
-{
-	"OutputFiles": [
-		"..\\..\\..\\x64\\UnrealGame\\Development\\XRDisplayModule\\Module.XRDisplayModule.cpp.obj",
-		"..\\..\\..\\x64\\UnrealGame\\Development\\XRDisplayModule\\load_library_utility.cc.obj",
-		"..\\..\\..\\x64\\UnrealGame\\Development\\XRDisplayModule\\xr_api_wrapper.cc.obj"
-	]
-}
